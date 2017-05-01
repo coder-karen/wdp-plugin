@@ -1,4 +1,4 @@
-# Web Developer's Portfolio 
+﻿# Web Developer's Portfolio 
 **Contributors:** wpkaren  
 **Donate Link:** http://karenattfield.com/giving/
 **Tags:** portfolio, post type, images, shortcode  
@@ -102,23 +102,6 @@ No, you can use this plugin to create the portfolio custom post type and customi
 ### Why was this plugin created? 
 
 I had a need to display both desktop and mobile screenshots for individual portfolio items, and didn't want to have to hand-code every new item into the page template. I created this plugin to allow the process to be quick, efficient and scalable.
-
-
-
-
-## Screenshots 
-
-### 1. Edit portfolio item admin screen
-See screenshot-1.png
-
-### 2. Portfolio item management admin screen
-See screenshot-2.png
-
-### 3. Portfolio settings admin screen
-See screenshot-3.png
-
-### 4. Screenshot of portfolio shortcode output on front-end
-See screenshot-4.png
 
 
 
