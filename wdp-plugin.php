@@ -5,7 +5,7 @@ Plugin URI: http://karenattfield.com/wdp-plugin/
 Description: A plugin that displays items within a portfolio on a designated portfolio page using custom post types via shortcodes. Designed to showcase screenshots from both desktop and mobile devices for each portfolio listing.
 Author: Karen Attfield
 Text Domain: wdp-plugin
-Version: 0.1.0
+Version: 1.0.0
 Author URI: http://karenattfield.com
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html 

@@ -112,12 +112,13 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
 
         }
 
-        /* Allowing portfolio items to be displayed by order attributed */
+        /* Allowing any number of portfolio items to be displayed by order attributed */
         public function posts_for_current_author($query) {  
          
             if ($query->get('post_type') == 'portfolio') {
                 $query->set('orderby', 'menu_order');
                 $query->set('order', 'ASC');
+                $query->set( 'posts_per_page', '-1' );
             }
           
           return $query;
@@ -139,6 +140,9 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
                 'post_type' => 'portfolio',
                 'post_status' => 'publish'
             );
+
+            // Define the variable that we will store all content to be returned.
+            $portfoliopreview = "";
 
             $loop = new WP_Query($args);
             if ($loop->have_posts() ) {
@@ -166,21 +170,24 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
                         else {
 
                             // Begin building the html output
-                            ?>
-                            <div class="wdp-port-snippet"><div class="wdp-work-preview">
-                            <?php
+                            $portfoliopreview = '<div class="wdp-port-snippet"><div class="wdp-work-preview">';
+
+                            //Add an extra closing div if there are no images but there is a url.
+                             if ((!isset($imageurl) ) && (!isset($mobileimage['_mobile_image_id'])) && (isset($custom['_my_url']) ))  {
+                                $portfoliopreview .=  '</div>';
+
+                             }
 
                             // If the main featured image is set, build the img container and display the image
                             if (isset($imageurl) ) {
-                                printf( '<div class="wdp-preview-main"><img src="%1$s" alt="%2$s" />', $imageurl, esc_html__( 'Main preview image', 'wdp-plugin' ) );
+                                $mainimageprint = sprintf( '<div class="wdp-preview-main"><img src="%1$s" alt="%2$s" />', $imageurl, esc_html__( 'Main preview image', 'wdp-plugin' ) );
+                                $portfoliopreview .= $mainimageprint;
 
                                 // If the mobile image isn't set, whilst the featured image is set
                                 if (!isset($mobileimage['_mobile_image_id']))  {
                          
                                     // Build the closing image html and open the title and excerpt html
-                                    ?>
-                                    </div></div>
-                                    <?php
+                                    $portfoliopreview .= '</div></div>';
                                 }  
                             } // end if isset $imageurl
          
@@ -192,38 +199,41 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
 
                                 // If the mobile image is set but the featured image isn't, build the html output
                                 if (isset($mobileimage['_mobile_image_id']) && !isset($imageurl)) {
-                                    printf( '<div class="wdp-mobile-preview-alt"><div class="wdp-mobile-main-alt"><img src=%1$s></div><div class="wdp-mobile-bottom-alt"></div></div>', $mobileimageurl);
+                                    $mobileimageprint =  sprintf( '<div class="wdp-mobile-preview-alt"><div class="wdp-mobile-main-alt"><img src=%1$s></div><div class="wdp-mobile-bottom-alt"></div></div>', $mobileimageurl);
+                                    $portfoliopreview .= $mobileimageprint;
 
-                                     // Build the closing image html
-                                    ?>
-                                    </div>
-                                    <?php
+                                    // Build the closing image html
+                                    $portfoliopreview .= '</div>';
                                 }
             
                                  // If both the mobile image and featured images are set, build the html output
                                 if (isset($mobileimage['_mobile_image_id']) && isset($imageurl)) {
-                                    printf( '<div class="wdp-mobile-preview"><div class="wdp-mobile-main"><img src=%1$s></div><div class="wdp-mobile-bottom"></div></div>', $mobileimageurl);
+                                    $allimageprint = sprintf( '<div class="wdp-mobile-preview"><div class="wdp-mobile-main"><img src=%1$s></div><div class="wdp-mobile-bottom"></div></div>', $mobileimageurl);
+                                    $portfoliopreview .= $allimageprint;
 
                                     // Build the closing image html
-                                    ?>
-                                    </div></div>
-                                    <?php
+                                    $portfoliopreview .= '</div></div>';
                                 }  
                             } // end if isset mobile image id
                  
                             // Open the title and excerpt html
-                            printf( '<div class="wdp-work-blurb"><h3 class="wdp-section-title">%1$s</h3><p>%2$s</p>' , $theTitle, $theExcerpt);
+                            $titleexcerpt = sprintf( '<div class="wdp-work-blurb"><h3 class="wdp-section-title">%1$s</h3><p>%2$s</p>' , $theTitle, $theExcerpt);
+                            $portfoliopreview .= $titleexcerpt;
 
                             // Display button linking to custom url, if custom url is set
                             if (isset($custom['_my_url']) ) {
                                 $button_text = esc_html__( 'View Project ', 'wdp-plugin' ); 
-                                printf( '<div class="wdp-featured-cta"><span class="wdp-buttons"><a class="wdp-btn" href="%1$s" target="_blank">%2$s</a></span></div>', $custom['_my_url'][0], $button_text) ;
+                                $printbutton = sprintf( '<div class="wdp-featured-cta"><span class="wdp-buttons"><a class="wdp-btn" href="%1$s" target="_blank">%2$s</a></span></div>', $custom['_my_url'][0], $button_text) ;
+                                $portfoliopreview .= $printbutton;
                             }
 
                             // Build the closing html
-                            ?>
-                            </div><div style="clear: both;"></div></div>
-                            <?php
+                            $portfoliopreview .= '</div><div style="clear: both;"></div></div>';
+
+                            
+
+                            //Echo the completed html output string
+                            echo $portfoliopreview;
 
                         } // end if images and or link is set
 
@@ -241,14 +251,18 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
         /* wdp_shortcode function - runs wdp_shortcode_function with no atts and prints all portfolio items */
         public function wdp_shortcode( $content = null) {
 
-           $this->wdp_shortcode_function($content = null);
+            ob_start();
+            $this->wdp_shortcode_function($content = null);
+            return ob_get_clean();
 
         }
 
         /* wdp_shortcode_single function - runs wdp_shortcode_function with atts (id) and prints matching portfolio item */
         public function wdp_shortcode_single($atts, $content = null) {
         
+            ob_start();
             $this->wdp_shortcode_function($atts, $content = null);
+            return ob_get_clean();
           
         }
 

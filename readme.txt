@@ -4,11 +4,11 @@ Donate Link: http://karenattfield.com/giving/
 Tags: portfolio, post type, images, shortcode
 Requires at least: 4.4
 Tested up to: 4.7.4
-Stable tag: 0.1.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Custom portfolio solution including front-end display through shortcodes.
+Custom portfolio solution including front-end display through shortcodes, showing both desktop & mobile images.
 
 == Description ==
 
@@ -18,7 +18,7 @@ This plugin works by creating a custom post type for portfolio items, and allows
 
 The output is styled with Flexbox, with an excerpt and button to the project page of your choice. You can also set the portfolio items to be publicly-queryable, meaning you can add single-portfolio.php or archive-portfolio.php templates to your site to customize the design of your individual portfolio pages.
 
-Note: If you intend to use the default styling provided by the shortcodes it is recommended that you utilize full-width pages for the best visual effect (though you are welcome to modify the CSS through your child /custom theme to fit your needs).
+Note: If you intend to use the default styling provided by the shortcodes it is recommended that you utilize full-width pages for the best visual effect (though you are welcome to modify the CSS through your child /custom theme to fit your needs). 
 
 
 ### Features
@@ -103,11 +103,22 @@ I had a need to display both desktop and mobile screenshots for individual portf
 
 == Changelog ==
 
+= 1.0.0 =
+* First stable version
+* Fix to prevent shortcode output always displaying before content
+* Fix to over-ride max posts per page setting for shortcode output
+* Changing ordering of portfolio items on listings page to be by date added
+* Updated readme.txt - added to 'short description' of plugin
+
 = 0.1.0 =
-Initial release
+* Initial release
 
 == Upgrade Notice ==
 
+= 1.0.0 =
+* First stable version. Fix to prevent shortcode output always displaying before content, and to allow unlimited number of items to display on the shortcode page
+
 = 0.1.0 =
-Initial release, no upgrade notice.
+* Initial release, no upgrade notice
+
 

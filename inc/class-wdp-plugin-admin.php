@@ -22,6 +22,7 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 			add_filter('manage_portfolio_posts_columns', array($this,'portfolio_table_head'), 5);
             add_action('manage_portfolio_posts_custom_column', array($this,'portfolio_table_content'), 5, 2);
             add_filter('manage_portfolio_posts_columns', array($this,'column_order'));
+            add_filter('pre_get_posts', array($this, 'order_portfolio_items'));
 
 		}
 
@@ -159,7 +160,18 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
             }  
 
             return $new;  
-        } 
+        }
+
+        /* Order the portfolio items by date on the listings page */
+        public function order_portfolio_items( $query ) {
+
+    		if ($query->get('post_type') == 'portfolio') {
+      			
+      			$query->set('orderby', 'date');
+     			$query->set('order', 'DESC');
+
+    			}
+		} 
 
 	}
 
