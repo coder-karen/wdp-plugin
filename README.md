@@ -108,22 +108,22 @@ I had a need to display both desktop and mobile screenshots for individual portf
 ## Changelog 
 
 ### 1.0.0 
-First stable version
-Fix to prevent shortcode output always displaying before content
-Fix to over-ride max posts per page setting for shortcode output
-Changing ordering of portfolio items on listings page to be by date added
-Updated readme.txt - added to 'short description' of plugin
+* First stable version
+* Fix to prevent shortcode output always displaying before content
+* Fix to over-ride max posts per page setting for shortcode output
+* Changing ordering of portfolio items on listings page to be by date added
+* Updated readme.txt - added to 'short description' of plugin
 
 ### 0.1.0 
-Initial release
+* Initial release
 
 ## Upgrade Notice 
 
 ### 1.0.0 
-First stable version. Fix to prevent shortcode output always displaying before content, and to allow unlimited number of items to display on the shortcode page
+* First stable version. Fix to prevent shortcode output always displaying before content, and to allow unlimited number of items to display on the shortcode page
 
 ### 0.1.0 
-Initial release, no upgrade notice
+* Initial release, no upgrade notice
 
 
 

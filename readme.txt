@@ -18,7 +18,7 @@ This plugin works by creating a custom post type for portfolio items, and allows
 
 The output is styled with Flexbox, with an excerpt and button to the project page of your choice. You can also set the portfolio items to be publicly-queryable, meaning you can add single-portfolio.php or archive-portfolio.php templates to your site to customize the design of your individual portfolio pages.
 
-Note: If you intend to use the default styling provided by the shortcodes it is recommended that you utilize full-width pages for the best visual effect (though you are welcome to modify the CSS through your child /custom theme to fit your needs). 
+Note: If you intend to use the default styling provided by the shortcodes it is recommended that you utilize full-width pages for the best visual effect (though you are welcome to modify the CSS through your theme to fit your needs). 
 
 
 ### Features
