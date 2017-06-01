@@ -3,12 +3,12 @@
 **Donate Link:** http://karenattfield.com/giving/
 **Tags:** portfolio, post type, images, shortcode  
 **Requires at least:** 4.4  
-**Tested up to:** 4.7.4  
-**Stable tag:** 1.0.0  
+**Tested up to:** 4.8  
+**Stable tag:** 1.0.1  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
-Custom portfolio solution including front-end display through shortcodes, showing both desktop & mobile images.
+Allowing web designers / developers a custom front-end portfolio display through shortcodes, showing both desktop & mobile images.
 
 
 ## Description 
@@ -107,6 +107,10 @@ I had a need to display both desktop and mobile screenshots for individual portf
 
 ## Changelog 
 
+### 1.0.1
+* Bug fix: Changing target page from button url's to be internal rather than external
+* Changing short description in readme.txt
+
 ### 1.0.0 
 * First stable version
 * Fix to prevent shortcode output always displaying before content
@@ -118,6 +122,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 * Initial release
 
 ## Upgrade Notice 
+
+### 1.0.1 
+* Changing target page from button url's to be internal, and changing short description
 
 ### 1.0.0 
 * First stable version. Fix to prevent shortcode output always displaying before content, and to allow unlimited number of items to display on the shortcode page
