@@ -223,7 +223,7 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
                             // Display button linking to custom url, if custom url is set
                             if (isset($custom['_my_url']) ) {
                                 $button_text = esc_html__( 'View Project ', 'wdp-plugin' ); 
-                                $printbutton = sprintf( '<div class="wdp-featured-cta"><span class="wdp-buttons"><a class="wdp-btn" href="%1$s" target="_blank">%2$s</a></span></div>', $custom['_my_url'][0], $button_text) ;
+                                $printbutton = sprintf( '<div class="wdp-featured-cta"><span class="wdp-buttons"><a class="wdp-btn" href="%1$s">%2$s</a></span></div>', $custom['_my_url'][0], $button_text) ;
                                 $portfoliopreview .= $printbutton;
                             }
 
