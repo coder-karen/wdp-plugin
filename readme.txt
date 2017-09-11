@@ -3,8 +3,8 @@ Contributors: wpkaren
 Donate Link: http://karenattfield.com/giving/
 Tags: portfolio, post type, images, shortcode
 Requires at least: 4.4
-Tested up to: 4.8
-Stable tag: 1.0.1
+Tested up to: 4.9
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,8 +103,13 @@ I had a need to display both desktop and mobile screenshots for individual portf
 
 == Changelog ==
 
+= 1.1.0 =
+* Added ability to change portfolio url button text in WDP Portfolio Settings page
+* Fix: Changed call to title and button text in mobile media uploader to avoid Ninja Forms plugin conflict 
+* Fix: Edited several instances of translatable strings for internationalisation
+
 = 1.0.1 =
-* Bug fix: Changing target page from button url's to be internal rather than external
+* Fix: Changing target page from button url's to be internal rather than external
 * Changing short description in readme.txt
 
 = 1.0.0 =
@@ -118,6 +123,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+* Adding ability to change portfolio url button text, and fixing Ninja Forms conflict with mobile image uploader
 
 = 1.0.1 =
 * Changing target page from button url's to be internal, and changing short description

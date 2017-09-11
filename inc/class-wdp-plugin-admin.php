@@ -53,6 +53,23 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 				'wdp_pluginPage_section' 
 			);	
 
+
+			register_setting('pluginPage', 'wdp-button-text', array($this,'wdp_validate_options'));
+
+			add_settings_section('wdp_pluginPage_button',
+				__('Portfolio url button display', 'wdp-plugin' ),
+				array($this, 'wdp_button_text'),
+					'pluginPage'
+				);
+
+			add_settings_field('wdp_button_text_field',
+				__('Input button text here:', 'wdp-plugin'),
+				array($this, 'wdp_button_text_renderer'),
+				'pluginPage',
+				'wdp_pluginPage_button'
+				);
+
+
 		}
 
 		/* Create input field for checkbox */
@@ -60,7 +77,7 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 	
 			$options = get_option( 'wdp_settings' );
 			?>
-			<input type='checkbox' name='wdp_settings[wdp_checkbox_field]' <?php if ($options != '') {esc_html_e("checked", "wdp-plugin"); } else { echo ""; } ?> value='1'>
+			<input type='checkbox' name='wdp_settings[wdp_checkbox_field]' <?php if ($options != '') {echo "checked"; } else { echo ""; } ?> value='1'>
 			<?php
 
 		}
@@ -71,6 +88,43 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 			esc_html_e( 'Select checkbox to allow portfolio items to be visible as individual portfolio pages (also allowing for customisation with single-portfolio.php template). This will set the "publicly_queryable" and "has_archive" post-type parameters to true for portfolio items. The default - unchecked - allows portfolio items only to be visible through shortcodes. If checked, remember to go to Settings->Permalinks and choose "Post Name"', 'wdp-plugin' );
 
 		}
+
+		/* Create callback checkbox fields */
+		public function wdp_button_text(  ) { 
+
+			esc_html_e( 'Type the text you would like displayed within the buttons linking to your custom project url (default is "View Project").', 'wdp-plugin' );
+
+		}
+
+		/* Create input field for button text */
+		public function wdp_button_text_renderer(  ) { 
+	
+			$options = (get_option( 'wdp-button-text' ));
+			$options_string = implode(" ", $options);
+
+			/* Create placeholder text for the input field */
+			if ($options_string != '') {
+				$placeholder = "placeholder='" . $options_string . "'";
+			}
+			else {
+				$default_placeholder = __('View Project', 'wdp-plugin'); 
+				$placeholder = 'placeholder="' . $default_placeholder . '"';
+				// $placeholder = "placeholder='View Project'";
+			}
+
+			echo '<input name="wdp-button-text[wdp_button_text_field]" id="wdp_button_text_field" type="text" value="' . $options_string .  '"' . $placeholder . '/>';
+	
+		}
+
+		// Sanitize and validate text input
+		public function wdp_validate_options($input) {
+
+			$input['wdp_button_text_field'] =  wp_filter_nohtml_kses($input['wdp_button_text_field']);	
+
+			return $input; // return validated input
+
+		}
+
 
 
 		/* Creating the settings page */
@@ -84,20 +138,22 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 			do_settings_sections( 'pluginPage' );
 			submit_button();
 			?>
+
 			</form>
 			<h2><?php esc_html_e( 'Using the shortcodes', 'wdp-plugin' );?></h2>
 			<p>
 			<?php
 			$shortcode1 = '[wd_portfolio_single id="id"]';
 			$shortcode2 = '[wd_portfolio_single id="5"]';
-			printf('To display a single portfolio item, use %1$s for example %2$s.', $shortcode1, $shortcode2); 
+			printf(__('To display a single portfolio item, use %1$s for example %2$s.'), $shortcode1, $shortcode2); 
 			?>
 			<br/>
 			<?php
 			$shortcode3 = '[wd_portfolio]';
-			printf('To display all portfolio items, use %1$s.', $shortcode3);
+			printf(__('To display all portfolio items, use %1$s.'), $shortcode3);
 			?></p>
 			<?php
+
 
 		}
 
@@ -126,7 +182,7 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 
             if($column_name === 'wdp_portfolio_url') {
                 $url = get_post_field( '_my_url', $id );
-                printf( '<a href="%1$s" target="_blank">%1$s</a>', $url);
+                printf(__('<a href="%1$s" target="_blank">%1$s</a>'), $url);
             }
 
         }

@@ -3,8 +3,8 @@
 **Donate Link:** http://karenattfield.com/giving/
 **Tags:** portfolio, post type, images, shortcode  
 **Requires at least:** 4.4  
-**Tested up to:** 4.8  
-**Stable tag:** 1.0.1  
+**Tested up to:** 4.9  
+**Stable tag:** 1.1.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -13,7 +13,7 @@ Allowing web designers / developers a custom front-end portfolio display through
 
 ## Description 
 
-Web Developer's Portfolio is a plugin designed to showcase screenshots from both desktop and mobile devices for each portfolio listing. Portfolio items are displayed on  any page of your choice using shortcodes.
+Web Developer's Portfolio is a plugin designed to showcase screenshots from both desktop and mobile devices for each portfolio listing. Portfolio items are displayed on any page of your choice using shortcodes.
 
 This plugin works by creating a custom post type for portfolio items, and allows you to upload two separate images per portfolio item - one for a desktop screenshot and one for a mobile screenshot. Through the use of shortcodes you can then display portfolio items on a page of your choice - displaying either a desktop screenshot only, mobile screenshot only, or both. 
 
@@ -107,8 +107,13 @@ I had a need to display both desktop and mobile screenshots for individual portf
 
 ## Changelog 
 
+### 1.1.0 
+* Added ability to change portfolio url button text in WDP Portfolio Settings page
+* Fix: Changed call to title and button text in mobile media uploader to avoid Ninja Forms plugin conflict 
+* Fix: Edited several instances of translatable strings for internationalisation
+
 ### 1.0.1
-* Bug fix: Changing target page from button url's to be internal rather than external
+* Fix: Changing target page from button url's to be internal rather than external
 * Changing short description in readme.txt
 
 ### 1.0.0 
@@ -122,6 +127,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 * Initial release
 
 ## Upgrade Notice 
+
+### 1.1.0
+* Adding ability to change portfolio url button text, and fixing Ninja Forms conflict with mobile image uploader
 
 ### 1.0.1 
 * Changing target page from button url's to be internal, and changing short description

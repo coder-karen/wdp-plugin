@@ -62,12 +62,17 @@ function wdp_admin_scripts( $hook ){
         $this_screen = get_current_screen();
 
         if( is_object( $this_screen ) && $cpt == $this_screen->post_type ){
-            wp_enqueue_script( 'media-image-uploader', plugin_dir_url( __FILE__ ) . '/js/media-image-uploader.js', array( 'jquery' ), '1.0.0', true ); 
+
+            wp_enqueue_script( 'media-image-uploader', plugin_dir_url( __FILE__ ) . '/js/media-image-uploader.js', array( 'jquery' ), '1.0.0', true);
             wp_enqueue_script( 'delete-meta-ajax', plugin_dir_url( __FILE__ ) . '/js/delete-meta-ajax.js', array( 'jquery' ), '1.0.0', true ); 
         
             /* wp_localize_script() is used to pass values into JavaScript object properties to our js file */
-            wp_localize_script( 'ajax-script', 'ajax_object',
-                array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'we_value' => 1234 ) );
+            $media_script_values = array(
+                'meta_image_title' => __('Select Mobile Image', 'wdp-plugin'),
+                'button_title' => __('Set Mobile Image', 'wdp-plugin')
+                );
+            wp_localize_script('media-image-uploader', 'wdp_script_vars', $media_script_values);
+   
         } // end if is object
     } // end if in array
 }

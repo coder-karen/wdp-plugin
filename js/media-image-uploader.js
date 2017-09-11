@@ -1,16 +1,21 @@
+
 jQuery(document).ready(function ($) {
 
 	// Instantiates the variable that holds the media library frame.
 	var meta_image_frame;
 
+
+
 	// Runs when the image upload button is clicked.
-	$('.image-upload').click(function (e) {
+	jQuery('.image-upload').click(function (e) {
+
 		
-		e.preventDefault();
+			e.preventDefault();
+
 		
-		var meta_image = $('.meta-image');
-		var meta_button = $('.image-upload');
-		var meta_div = $('.image-show');	
+		var meta_image = jQuery('.meta-image');
+		var meta_button = jQuery('.image-upload');
+		var meta_div = jQuery('.image-show');
 
 		// If the frame already exists, re-open it.
 		if (meta_image_frame) {
@@ -18,11 +23,12 @@ jQuery(document).ready(function ($) {
 			return;
 		}  
 
+
 		// Sets up the media library frame
 		meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
-			title: meta_image.title,
+			title: wdp_script_vars.meta_image_title,
 			button: {
-				text: meta_image.button
+				text: wdp_script_vars.button_title
 			}
 		});
 
@@ -39,14 +45,14 @@ jQuery(document).ready(function ($) {
 			meta_div.empty();
 
 			// Adds new image to 'image-show' div
-			meta_div.prepend($('<img>',{src:media_attachment.url, style:'max-width: 100%;'}));
+			meta_div.prepend(jQuery('<img>',{src:media_attachment.url, style:'max-width: 100%;'}));
 
 			// Makes the 'image-remove' and 'image-show' divs visible
-			$('.image-remove').css("display", "inline-block");
-			$('.image-show').show();
+			jQuery('.image-remove').css("display", "inline-block");
+			jQuery('.image-show').show();
 
 			// Hides the parent html container that mobile_image_id is in
-			$('#_mobile_image_id').parent().hide();
+			jQuery('#_mobile_image_id').parent().hide();
 		
 		});
 

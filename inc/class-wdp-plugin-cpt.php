@@ -154,7 +154,7 @@ if ( ! class_exists( 'WDP_Plugin_CPT' ) ) {
 
             <!-- If there is no image set, create an upload button -->
             <?php } ?>
-            <?php if (!isset ($displayimage)) { ?>
+            <?php if (!isset ($displayimage)) {  ?>
         	  <input type="button" id="image-upload" class="button image-upload" value=<?php esc_html_e("Browse", "wdp-plugin"); ?> >
          
             <!-- If there is an image set, create and hide an upload button -->
