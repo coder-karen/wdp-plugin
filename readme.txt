@@ -4,7 +4,7 @@ Donate Link: http://karenattfield.com/giving/
 Tags: portfolio, post type, images, shortcode
 Requires at least: 4.4
 Tested up to: 4.9
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix: Implode function wasn't displaying button text in some instances
+
 = 1.1.0 =
 * Added ability to change portfolio url button text in WDP Portfolio Settings page
 * Fix: Changed call to title and button text in mobile media uploader to avoid Ninja Forms plugin conflict 
@@ -123,6 +126,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+* Fix: Implode function wasn't displaying button text in some instances
 
 = 1.1.0 =
 * Adding ability to change portfolio url button text, and fixing Ninja Forms conflict with mobile image uploader

@@ -100,16 +100,14 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 		public function wdp_button_text_renderer(  ) { 
 	
 			$options = (get_option( 'wdp-button-text' ));
-			$options_string = implode(" ", $options);
 
-			/* Create placeholder text for the input field */
-			if ($options_string != '') {
+			if (($options['wdp_button_text_field'] != '') && $options != false) {
+				$options_string = implode(" ", $options);
 				$placeholder = "placeholder='" . $options_string . "'";
 			}
 			else {
-				$default_placeholder = __('View Project', 'wdp-plugin'); 
-				$placeholder = 'placeholder="' . $default_placeholder . '"';
-				// $placeholder = "placeholder='View Project'";
+				$options_string = __('View Project', 'wdp-plugin'); 
+				$placeholder = 'placeholder="' . $options_string . '"';
 			}
 
 			echo '<input name="wdp-button-text[wdp_button_text_field]" id="wdp_button_text_field" type="text" value="' . $options_string .  '"' . $placeholder . '/>';

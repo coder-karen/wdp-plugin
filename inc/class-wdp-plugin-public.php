@@ -223,11 +223,17 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
                             // Display button linking to custom url, if custom url is set
                             if (isset($custom['_my_url']) ) {
                                 $options = get_option( 'wdp-button-text' );
-                                $button_text = implode(" ", $options);
 
-                                if ($button_text == '') {                         
-                                    $button_text = esc_html__( 'View Project', 'wdp-plugin' ); 
-                                }
+
+                            if (($options['wdp_button_text_field'] != '') && $options != false) {
+                                $button_text = implode(" ", $options);
+                            }
+                            
+                            else {
+                                $button_text = esc_html__( 'View Project', 'wdp-plugin' );
+                            }
+
+
 
                                 $printbutton = sprintf( '<div class="wdp-featured-cta"><span class="wdp-buttons"><a class="wdp-btn" href="%1$s">%2$s</a></span></div>', $custom['_my_url'][0], $button_text) ;
                                 $portfoliopreview .= $printbutton;
