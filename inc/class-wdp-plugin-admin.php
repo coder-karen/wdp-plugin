@@ -148,7 +148,7 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 		/* Create callback checkbox fields */
 		public function wdp_slug_text(  ) { 
 
-			esc_html_e( 'Type in the custom post type slug for your portfolio items. Default is portfolio, but if you want to display portfolio items on a page with the slug portfolio (eg. example.com/portfolio) you will need to choose a different slug (eg web-portfolio). Remember to click "Save changes" under Settings -> Permalinks in order to regenerate permalinks.', 'wdp-plugin' );
+			esc_html_e( 'Type in the custom post type slug for your portfolio items. Default is portfolio, but if you want to display portfolio items on a page with the slug portfolio (eg. example.com/portfolio) you will need to choose a different slug (eg webportfolio). Remember to click "Save changes" under Settings -> Permalinks in order to regenerate permalinks.', 'wdp-plugin' );
 
 		}
 
