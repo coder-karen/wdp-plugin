@@ -21,20 +21,22 @@ jQuery(document).ready(function ($) {
 		if (meta_image_frame) {
 			meta_image_frame.open();
 			return;
+			
 		}  
 
-
+console.log('open?');
 		// Sets up the media library frame
 		meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
-			title: wdp_script_vars.meta_image_title,
+			 title: wdp_script_vars.meta_image_title,
 			button: {
-				text: wdp_script_vars.button_title
+				 text: wdp_script_vars.button_title
 			}
 		});
+			console.log('open');
 
 		// Runs when an image is selected
 		meta_image_frame.on('select', function () {
-
+console.log('open??????');
 			// Creates a JSON representation of the attachment selection
 			var media_attachment = meta_image_frame.state().get('selection').first().toJSON();
 

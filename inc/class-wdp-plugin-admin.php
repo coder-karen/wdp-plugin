@@ -17,11 +17,18 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
         */
 		public function __construct(){
 
+			//Determine the custom post-type slug
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
+
+			$managecolumns = 'manage_'.$posttype.'_posts_columns';
+			$manage_customcolumns = 'manage_'.$posttype.'_posts_custom_column';
+
 			add_action( 'admin_menu', array($this, 'wdp_add_admin_menu' ));
 			add_action( 'admin_init', array($this, 'wdp_settings_init' ));
-			add_filter('manage_portfolio_posts_columns', array($this,'portfolio_table_head'), 5);
-            add_action('manage_portfolio_posts_custom_column', array($this,'portfolio_table_content'), 5, 2);
-            add_filter('manage_portfolio_posts_columns', array($this,'column_order'));
+			add_filter($managecolumns, array($this,'portfolio_table_head'), 5);
+            add_action($manage_customcolumns, array($this,'portfolio_table_content'), 5, 2);
+            add_filter($managecolumns, array($this,'column_order'));
             add_filter('pre_get_posts', array($this, 'order_portfolio_items'));
 
 		}
@@ -69,6 +76,21 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 				'wdp_pluginPage_button'
 				);
 
+			register_setting('pluginPage', 'wdp-slug', array($this,'wdp_validate_slug_options'));
+
+			add_settings_section('wdp_pluginPage_slug',
+				__('Portfolio slug', 'wdp-plugin' ),
+				array($this, 'wdp_slug_text'),
+					'pluginPage'
+				);
+
+			add_settings_field('wdp_slug_text_field',
+				__('Input slug here:', 'wdp-plugin'),
+				array($this, 'wdp_slug_renderer'),
+				'pluginPage',
+				'wdp_pluginPage_slug'
+				);
+
 
 		}
 
@@ -85,11 +107,11 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 		/* Create callback checkbox fields */
 		public function wdp_settings_callback(  ) { 
 
-			esc_html_e( 'Select checkbox to allow portfolio items to be visible as individual portfolio pages (also allowing for customisation with single-portfolio.php template). This will set the "publicly_queryable" and "has_archive" post-type parameters to true for portfolio items. The default - unchecked - allows portfolio items only to be visible through shortcodes. If checked, remember to go to Settings->Permalinks and choose "Post Name"', 'wdp-plugin' );
+			esc_html_e( 'Select checkbox to allow portfolio items to be visible as individual portfolio pages (also allowing for customisation with single-portfolio.php template). This will set the "publicly_queryable" and "has_archive" post-type parameters to true for portfolio items. The default - unchecked - allows portfolio items only to be visible through shortcodes. If checked, remember to go to Settings->Permalinks and choose "Post Name".', 'wdp-plugin' );
 
 		}
 
-		/* Create callback checkbox fields */
+		/* Create button input description */
 		public function wdp_button_text(  ) { 
 
 			esc_html_e( 'Type the text you would like displayed within the buttons linking to your custom project url (default is "View Project").', 'wdp-plugin' );
@@ -114,12 +136,95 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
 	
 		}
 
-		// Sanitize and validate text input
+		/* Sanitize and validate button text input */
 		public function wdp_validate_options($input) {
 
 			$input['wdp_button_text_field'] =  wp_filter_nohtml_kses($input['wdp_button_text_field']);	
 
 			return $input; // return validated input
+
+		}
+
+		/* Create callback checkbox fields */
+		public function wdp_slug_text(  ) { 
+
+			esc_html_e( 'Type in the custom post type slug for your portfolio items. Default is portfolio, but if you want to display portfolio items on a page with the slug portfolio (eg. example.com/portfolio) you will need to choose a different slug (eg web-portfolio). Remember to click "Save changes" under Settings -> Permalinks in order to regenerate permalinks.', 'wdp-plugin' );
+
+		}
+
+		/* Create input field for portfolio slug */
+		public function wdp_slug_renderer(  ) { 
+	
+			$options = (get_option( 'wdp-slug' ));
+			$this->change_slug();
+
+			if (($options['wdp_slug_text_field'] != '') && $options != false) {
+				$options_string = implode(" ", $options);
+				$placeholder = "placeholder='" . $options_string . "'";
+			}
+			else {
+				$options_string = __('portfolio', 'wdp-plugin'); 
+				$placeholder = 'placeholder="' . $options_string . '"';
+			}
+
+			echo '<input name="wdp-slug[wdp_slug_text_field]" id="wdp_slug_text_field" type="text" value="' . $options_string .  '"' . $placeholder . '/>';
+	
+		}
+
+
+		/* Sanitize and validate slug text input */
+		public function wdp_validate_slug_options($input) {
+
+			$string = $input['wdp_slug_text_field'];
+			$input['wdp_slug_text_field'] = strtolower(str_replace( '-', '_', sanitize_title_with_dashes( $string ) ));
+
+			return $input; // return validated input
+
+		}
+
+		/* Change all pre-created portfolio entries in the database to have the new slug */
+		public function change_slug() {
+
+			if (get_option('wdp-previous-slug') != null) {
+
+				$previousslug = get_option('wdp-previous-slug');
+				$previousslug = $previousslug['wdp_slug_text_field'];
+
+				if ($previousslug == '') {
+					$previousslug = 'portfolio';
+				}
+
+				$newslug = get_option('wdp-slug');
+				$newslug = $newslug['wdp_slug_text_field'];
+
+				if ($newslug == '') {
+					$newslug = 'portfolio';
+				}
+				if ($previousslug == $newslug) {
+					return;
+				}
+				else {
+
+					//modify all previous slug entries to have new slug
+					global $wpdb;
+
+					$sql = "UPDATE  `".$wpdb->posts."` SET  `post_type` =  '".$newslug."' WHERE  `post_type` = '".$previousslug."'";
+
+					$wpdb->query($sql);
+
+					//then change the previous slug to be be the new slug
+					$previousslug = get_option('wdp-slug');
+					update_option('wdp-previous-slug', $previousslug);
+				}
+			}
+
+			else {
+
+				$previousslug = get_option('wdp-slug');
+
+				add_option('wdp-previous-slug', $previousslug);
+
+			}
 
 		}
 
@@ -186,7 +291,7 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
         }
 
         /* Rearranging the order of the columns */
-        public function column_order($defaults) {  
+        public function column_order($defaults) { 
 
             $new = array();
             // save the columns:
@@ -216,10 +321,13 @@ if ( ! class_exists( 'WDP_Admin' ) ) {
             return $new;  
         }
 
+
         /* Order the portfolio items by date on the listings page */
         public function order_portfolio_items( $query ) {
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
 
-    		if ($query->get('post_type') == 'portfolio') {
+    		if ($query->get('post_type') == $posttype) {
       			
       			$query->set('orderby', 'date');
      			$query->set('order', 'DESC');

@@ -38,7 +38,10 @@ if ( ! class_exists( 'WDP_Plugin_CPT' ) ) {
         		else { 
         			 $optionvalue = false;
         		} 
-                   
+
+            // Get the value of the post-type slug
+            $posttype = $this->get_posttype();
+      
 
             $labels = array(
                 'name'                => __( 'Portfolio', 'wdp-plugin' ),
@@ -69,23 +72,41 @@ if ( ! class_exists( 'WDP_Plugin_CPT' ) ) {
                 'heirarchical'        => false,
                 'has_archive'         => $optionvalue, 
                 'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
-                'rewrite'             => array('slug' => 'portfolio', 'with_front' => true),  
+                'rewrite'             => array('slug' => $posttype, 'with_front' => true),  
                 'rewrite'             => true,
                 'menu_position'       => 20
                 );
 
 
-        		register_post_type('portfolio', $args);
+                /* Set the post-type slug based on user input on settings screen */
+                register_post_type($posttype, $args);
+
         		
+        }
+
+        /* Set the post-type slug based on user input on settings screen */
+        public function get_posttype() {
+
+            $posttype = get_option( 'wdp-slug' );
+            $posttype = $posttype['wdp_slug_text_field'] ;
+
+            if ($posttype != '' ) {
+                $posttype = $posttype;
+            }
+            else {
+                $posttype = 'portfolio';
+            }
+            return $posttype;
         }
 
 
         /* Initializing the portfolio admin page meta boxes */
         public function wdp_projects_admin_init() {
+            $posttype = $this->get_posttype(); 
           	add_meta_box("wdp-projects-meta", 
             		__("Project Link", "wdp-plugin"),
             		array($this,"wdp_projects_url"), 
-            		"portfolio", 
+            		$posttype, 
             		"side", 
             		"low"
             		);
@@ -94,7 +115,7 @@ if ( ! class_exists( 'WDP_Plugin_CPT' ) ) {
             add_meta_box( 'mobileimagediv', 
               	__( 'Mobile Image', 'wdp-plugin' ), 
               	array($this,'mobile_image_metabox'), 
-              	'portfolio', 
+              	$posttype, 
               	'side', 
               	'low'
                 );
@@ -104,12 +125,12 @@ if ( ! class_exists( 'WDP_Plugin_CPT' ) ) {
                 
         /* Changing the name of the default 'featured image' box */        
         public function replace_featured_image_box() { 
-
-            if (get_post_type() == 'portfolio') {
-                remove_meta_box( 'postimagediv', 'portfolio', 'side' );  
-                add_meta_box('postimagediv', esc_html__("Desktop Image", "wdp-plugin"), 'post_thumbnail_meta_box', 'portfolio', 'side', 'low');  
+            $posttype = $this->get_posttype();
+            if (get_post_type() == $posttype) {
+                remove_meta_box( 'postimagediv', $posttype, 'side' );  
+                add_meta_box('postimagediv', esc_html__("Desktop Image", "wdp-plugin"), 'post_thumbnail_meta_box', $posttype, 'side', 'low');  
             }
-
+           
         }  
 
 
@@ -300,9 +321,6 @@ if ( ! class_exists( 'WDP_Plugin_CPT' ) ) {
 /* If WDP_Plugin_CPT class exists, instantiate the class */
 if(class_exists('WDP_Plugin_CPT')) 
 {
-    // Installation and uninstallation hooks
-    // register_activation_hook(__FILE__, array('Web_Developers_Portfolio', 'activate'));
-    // register_deactivation_hook(__FILE__, array('Web_Developers_Portfolio', 'deactivate'));
 
     // instantiate the plugin class
     $wp_plugin_template = new WDP_Plugin_CPT();

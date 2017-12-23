@@ -1,14 +1,14 @@
 <?php 
 /*
 Plugin Name: Web Developer's Portfolio Plugin
-Plugin URI: http://karenattfield.com/wdp-plugin/
+Plugin URI: https://karenattfield.com/wdp-plugin/
 Description: A plugin that displays items within a portfolio on a designated portfolio page using custom post types via shortcodes. Designed to showcase screenshots from both desktop and mobile devices for each portfolio listing.
 Author: Karen Attfield
 Text Domain: wdp-plugin
-Version: 1.1.1
-Author URI: http://karenattfield.com
+Version: 1.2.0
+Author URI: https://karenattfield.com
 License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html 
+License URI: https://www.gnu.org/licenses/gpl-2.0.html 
  */
 
 
@@ -54,9 +54,15 @@ function wdp_styles() {
 
 add_action('wp_enqueue_scripts', 'wdp_styles');
 
+
+
 /* Enqueues the scripts for the plugin if on portfolio admin page */
 function wdp_admin_scripts( $hook ){
-    $cpt = 'portfolio';
+
+    //Determine the current post-type slug
+    $posttype = new WDP_Plugin_CPT();
+    $posttype = $posttype->get_posttype();
+    $cpt = $posttype;
 
     if( in_array($hook, array('post.php', 'post-new.php') ) ){
         $this_screen = get_current_screen();
@@ -65,6 +71,8 @@ function wdp_admin_scripts( $hook ){
 
             wp_enqueue_script( 'media-image-uploader', plugin_dir_url( __FILE__ ) . '/js/media-image-uploader.js', array( 'jquery' ), '1.0.0', true);
             wp_enqueue_script( 'delete-meta-ajax', plugin_dir_url( __FILE__ ) . '/js/delete-meta-ajax.js', array( 'jquery' ), '1.0.0', true ); 
+
+
         
             /* wp_localize_script() is used to pass values into JavaScript object properties to our js file */
             $media_script_values = array(
@@ -73,7 +81,8 @@ function wdp_admin_scripts( $hook ){
                 );
             wp_localize_script('media-image-uploader', 'wdp_script_vars', $media_script_values);
    
-        } // end if is object
+        }// end if is object   
+   
     } // end if in array
 }
 

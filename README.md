@@ -1,12 +1,12 @@
 ﻿# Web Developer's Portfolio 
 **Contributors:** wpkaren  
-**Donate Link:** http://karenattfield.com/giving/
+**Donate Link:** https://karenattfield.com/giving/
 **Tags:** portfolio, post type, images, shortcode  
 **Requires at least:** 4.4  
-**Tested up to:** 4.9  
-**Stable tag:** 1.1.1  
+**Tested up to:** 5.0  
+**Stable tag:** 1.2.0  
 **License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 Allowing web designers / developers a custom front-end portfolio display through shortcodes, showing both desktop & mobile images.
 
@@ -107,6 +107,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 
 ## Changelog 
 
+### 1.2.0
+* Added ability to change portfolio slug, avoiding page name conflicts
+
 ### 1.1.1 
 * Fix: Implode function wasn't displaying button text in some instances
 
@@ -130,6 +133,9 @@ I had a need to display both desktop and mobile screenshots for individual portf
 * Initial release
 
 ## Upgrade Notice 
+
+### 1.2.0
+* Added ability to change portfolio slug, avoiding page name conflicts
 
 ### 1.1.1 
 * Fix: Implode function wasn't displaying button text in some instances

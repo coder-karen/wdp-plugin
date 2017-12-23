@@ -28,17 +28,24 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
 
         }
 
+
         /* Removes the excerpt box */
         public function wdp_remove_excerpt_admin() { 
 
-            remove_meta_box('postexcerpt', 'portfolio', 'normal');  
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
+
+            remove_meta_box('postexcerpt', $posttype, 'normal');  
 
         }
 
         /* Creates a new excerpt box */
         public function wdp_create_excerpt_admin() { 
 
-            if (get_post_type() == 'portfolio') {
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
+
+            if (get_post_type() == $posttype) {
                 add_meta_box( 'portfolioexcerpt',
                 __( 'Portfolio Excerpt', 'wdp-plugin' ),
                 array ( $this, 'show_excerpt_box' ),
@@ -71,8 +78,11 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
 
         /* Moves the excerpt to the top of the admin page */
         public function wdp_excerpt_top() { 
+
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
            
-            if (get_post_type() == 'portfolio') {
+            if (get_post_type() == $posttype) {
                 global $post, $wp_meta_boxes;
                 do_meta_boxes( get_current_screen(), 'top', $post );
                 unset($wp_meta_boxes['post']['top']);
@@ -84,13 +94,15 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
         public function addImageSupportPortfolio() {
           
             $postTypes = get_theme_support( 'post-thumbnails' );
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
            
             if( $postTypes === false ) {
-                add_theme_support( 'post-thumbnails', array( 'portfolio') );  
+                add_theme_support( 'post-thumbnails', array( $posttype) );  
             }             
             
             elseif( is_array( $postTypes ) ) {
-                $postTypes[0][] = 'portfolio';
+                $postTypes[0][] = $posttype;
                 add_theme_support( 'post-thumbnails', $postTypes[0] );
             }
 
@@ -114,8 +126,11 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
 
         /* Allowing any number of portfolio items to be displayed by order attributed */
         public function posts_for_current_author($query) {  
+
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
          
-            if ($query->get('post_type') == 'portfolio') {
+            if ($query->get('post_type') == $posttype) {
                 $query->set('orderby', 'menu_order');
                 $query->set('order', 'ASC');
                 $query->set( 'posts_per_page', '-1' );
@@ -128,6 +143,9 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
         /* Function to create the html output after calling the shortcodes */
         public function wdp_shortcode_function($atts, $content = null) {
 
+            $posttype = new WDP_Plugin_CPT();
+            $posttype = $posttype->get_posttype();
+
             if (isset ($atts)) {
                 $atts = shortcode_atts(
                     array(
@@ -137,7 +155,7 @@ if ( ! class_exists( 'WDP_Plugin_Public' ) ) {
             }
 
             $args = array(
-                'post_type' => 'portfolio',
+                'post_type' => $posttype,
                 'post_status' => 'publish'
             );
 
