@@ -3,7 +3,7 @@ Contributors: wpkaren
 Donate Link: https://karenattfield.com/giving/
 Tags: portfolio, post type, images, shortcode
 Requires at least: 4.4
-Tested up to: 5.0
+Tested up to: 5.6.2
 Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
